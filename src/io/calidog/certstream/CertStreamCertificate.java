@@ -1,16 +1,25 @@
 package io.calidog.certstream;
 
-import javax.xml.bind.DatatypeConverter;
-import java.io.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.security.*;
-import java.security.cert.*;
 import java.security.cert.Certificate;
+import java.security.cert.*;
+import java.time.Instant;
+import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 public class CertStreamCertificate extends X509Certificate {
+    HashMap<String, String> subject;
+    HashMap<String, String> extensions;
+
+    double notBefore;
+    double notAfter;
+
+    String asDer;
 
     private CertStreamCertificate() {}
 
@@ -23,27 +32,41 @@ public class CertStreamCertificate extends X509Certificate {
         }
         else
         {
+            //todo remove stupid dev stuff
             System.out.println("asDer is : " + pojo.asDer);
         }
 
-        byte[] derBinary = DatatypeConverter.parseBase64Binary(pojo.asDer);
+        fullCertificate.asDer = pojo.asDer;
 
-        InputStream derStream = new ByteArrayInputStream(derBinary);
+        //paranoid wrapping
+        fullCertificate.extensions= new HashMap<>(pojo.extensions.size());
+        fullCertificate.extensions.putAll(pojo.extensions);
 
-        return CertificateFactory.getInstance("x509").generateCertificate(derStream);
-        //todo
+        fullCertificate.notAfter = pojo.notAfter;
+        fullCertificate.notBefore = pojo.notBefore;
 
-//        return fullCertificate;
+        //more paranoia
+        fullCertificate.subject = new HashMap<>(pojo.subject.size());
+        fullCertificate.subject.putAll(pojo.subject);
+
+        return fullCertificate;
     }
 
     @Override
     public void checkValidity() throws CertificateExpiredException, CertificateNotYetValidException {
-
+        checkValidity(Date.from(Instant.now()));
     }
 
     @Override
     public void checkValidity(Date date) throws CertificateExpiredException, CertificateNotYetValidException {
-
+        if (date.before(getNotBefore()))
+        {
+            throw new CertificateNotYetValidException();
+        }
+        if (date.after(getNotAfter()))
+        {
+            throw new CertificateExpiredException();
+        }
     }
 
     @Override
@@ -58,111 +81,112 @@ public class CertStreamCertificate extends X509Certificate {
 
     @Override
     public Principal getIssuerDN() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public Principal getSubjectDN() {
-        return null;
+        return () -> subject.get("DN");
     }
 
     @Override
     public Date getNotBefore() {
-        return null;
+        return new Date((long)notBefore);
     }
 
     @Override
     public Date getNotAfter() {
-        return null;
+        return new Date((long)notAfter);
     }
 
     @Override
     public byte[] getTBSCertificate() throws CertificateEncodingException {
-        return new byte[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public byte[] getSignature() {
-        return new byte[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public String getSigAlgName() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public String getSigAlgOID() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public byte[] getSigAlgParams() {
-        return new byte[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean[] getIssuerUniqueID() {
-        return new boolean[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean[] getSubjectUniqueID() {
-        return new boolean[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean[] getKeyUsage() {
-        return new boolean[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public int getBasicConstraints() {
-        return 0;
+        throw new NotImplementedException();
     }
 
     @Override
     public byte[] getEncoded() throws CertificateEncodingException {
-        return new byte[0];
+        return Base64.getDecoder().decode(asDer);
     }
 
     @Override
     public void verify(PublicKey publicKey) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public void verify(PublicKey publicKey, String s) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
+        throw new NotImplementedException();
 
     }
 
     @Override
     public String toString() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public PublicKey getPublicKey() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean hasUnsupportedCriticalExtension() {
-        return false;
+        throw new NotImplementedException();
     }
 
     @Override
     public Set<String> getCriticalExtensionOIDs() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public Set<String> getNonCriticalExtensionOIDs() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public byte[] getExtensionValue(String s) {
-        return new byte[0];
+        throw new NotImplementedException();
     }
 }

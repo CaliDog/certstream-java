@@ -68,17 +68,13 @@ public class CertStream{
                     System.out.println("heartbeat message: " + string);
                     return;
                 }
-
-
-
-                System.out.println(msg.data.leafCert);
             }catch (JsonSyntaxException e)
             {
                 System.out.println(e.getMessage());
                 logger.warn("onMessage had an exception parsing some json", e);
             }
 
-            CertStreamMessage fullMsg = null;
+            CertStreamMessage fullMsg;
 
             try
             {
