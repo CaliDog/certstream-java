@@ -1,6 +1,9 @@
 #Intellij's dirty laundry
 .idea/*
 
+#maven build artifcts
+target/*
+
 # Compiled class file
 *.class
 
