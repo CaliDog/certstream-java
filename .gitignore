@@ -1,3 +1,6 @@
+#Intellij's dirty laundry
+.idea/*
+
 # Compiled class file
 *.class
 

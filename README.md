@@ -10,7 +10,20 @@ This is a library for interacting with the [certstream network](https://certstre
 
 # Installing
 
-:: INSTALL INSTRUCTIONS
+Step 1: Add Repository
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
+Step 2: Add dependency:
+
+<dependency>
+    <groupId>com.github.CaliDog</groupId>
+    <artifactId>certstream-java</artifactId>
+    <version>0.1</version>
+</dependency>
+
 
 # Usage
 
