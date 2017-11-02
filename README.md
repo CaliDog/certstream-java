@@ -10,7 +10,7 @@ This is a library for interacting with the [certstream network](https://certstre
 
 # Installing
 
-Step 1: Add Repository:
+Step 1: Add Repository to pom.xml:
 ```
 <repository>
     <id>jitpack.io</id>
@@ -18,7 +18,7 @@ Step 1: Add Repository:
 </repository>
 ```
 
-Step 2: Add dependency:
+Step 2: Add dependency to pom.xml:
 
 ```
 <dependency>
