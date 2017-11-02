@@ -3,6 +3,10 @@ package io.calidog.certstream;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
+/**
+ * The meaty data part of a CertStream Message.
+ * Mostly just a POJO for now.
+ */
 public class CertStreamMessageData {
 
     String updateType;
@@ -19,6 +23,12 @@ public class CertStreamMessageData {
 
     private CertStreamMessageData() {}
 
+    /**
+     *
+     * @param pojo
+     * @return
+     * @throws CertificateException
+     */
     public static CertStreamMessageData fromPOJO(CertStreamMessageDataPOJO pojo) throws CertificateException {
         CertStreamMessageData fullData = new CertStreamMessageData();
 

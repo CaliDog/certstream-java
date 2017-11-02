@@ -4,13 +4,23 @@ import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BoringParts implements CertStreamErrorHandler, CertStreamCloseHandler, CertStreamOpenHandler {
+/**
+ * The class that takes care of ll the boring parts
+ * of talking over WebSockets, most notably the onClose
+ * which will get called if your internet connection
+ * hiccups.
+ */
+public class BoringParts implements
+        CertStreamErrorHandler,
+        CertStreamCloseHandler,
+        CertStreamOpenHandler {
     private static final Logger logger = LoggerFactory.getLogger(BoringParts.class);
     private boolean notClosed = true;
 
+    //todo reconnection logic
     @Override
     public void onClose(int i, String s, boolean b) {
-        logger.debug("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
+        logger.warn("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
         System.out.println("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
 
         notClosed = false;
@@ -31,12 +41,15 @@ public class BoringParts implements CertStreamErrorHandler, CertStreamCloseHandl
 
         for (StackTraceElement i : currentStack)
         {
-            bob.append(i.toString());
+            bob.append(i.toString()).append("\n");
         }
 
         logger.debug("OnOpen was called with this call tree: " + bob.toString());
     }
 
+    /**
+     * @return whether or not onClose has been called
+     */
     public boolean isNotClosed() {
         return notClosed;
     }

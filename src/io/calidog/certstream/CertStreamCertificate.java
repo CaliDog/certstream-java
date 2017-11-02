@@ -2,24 +2,26 @@ package io.calidog.certstream;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.security.auth.x500.X500Principal;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.*;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * Some methods that might be useful for accessing certificate
+ * data. Not a complete implementation of x509Certificate.
+ */
 public class CertStreamCertificate extends X509Certificate {
-    HashMap<String, String> subject;
-    HashMap<String, String> extensions;
+    private HashMap<String, String> subject;
+    private HashMap<String, String> extensions;
 
-    double notBefore;
-    double notAfter;
+    private double notBefore;
+    private double notAfter;
 
-    String asDer;
+    private String asDer;
 
     private CertStreamCertificate() {}
 
@@ -30,24 +32,15 @@ public class CertStreamCertificate extends X509Certificate {
         {
             return null;
         }
-        else
-        {
-            //todo remove stupid dev stuff
-            System.out.println("asDer is : " + pojo.asDer);
-        }
 
         fullCertificate.asDer = pojo.asDer;
 
-        //paranoid wrapping
-        fullCertificate.extensions= new HashMap<>(pojo.extensions.size());
-        fullCertificate.extensions.putAll(pojo.extensions);
+        fullCertificate.extensions = pojo.extensions;
 
         fullCertificate.notAfter = pojo.notAfter;
         fullCertificate.notBefore = pojo.notBefore;
 
-        //more paranoia
-        fullCertificate.subject = new HashMap<>(pojo.subject.size());
-        fullCertificate.subject.putAll(pojo.subject);
+        fullCertificate.subject = pojo.subject;
 
         return fullCertificate;
     }
@@ -69,24 +62,39 @@ public class CertStreamCertificate extends X509Certificate {
         }
     }
 
+    /**Not implemented*/
     @Override
     public int getVersion() {
-        return 0;
+        throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public BigInteger getSerialNumber() {
-        return null;
+        throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public Principal getIssuerDN() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
+    @Override
+    public X500Principal getIssuerX500Principal() {
+        throw new NotImplementedException();
+    }
+
+    /**Not implemented*/
     @Override
     public Principal getSubjectDN() {
         return () -> subject.get("DN");
+    }
+
+    @Override
+    public X500Principal getSubjectX500Principal() {
+        return new X500Principal("", subject);
     }
 
     @Override
@@ -99,94 +107,146 @@ public class CertStreamCertificate extends X509Certificate {
         return new Date((long)notAfter);
     }
 
+    /**Not implemented*/
     @Override
     public byte[] getTBSCertificate() throws CertificateEncodingException {
         throw new NotImplementedException();
     }
-
+    /**Not implemented*/
     @Override
     public byte[] getSignature() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public String getSigAlgName() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public String getSigAlgOID() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public byte[] getSigAlgParams() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public boolean[] getIssuerUniqueID() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public boolean[] getSubjectUniqueID() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public boolean[] getKeyUsage() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
+    @Override
+    public List<String> getExtendedKeyUsage() throws CertificateParsingException {
+        throw new NotImplementedException();
+    }
+
+    /**Not implemented*/
     @Override
     public int getBasicConstraints() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
-    public byte[] getEncoded() throws CertificateEncodingException {
-        return Base64.getDecoder().decode(asDer);
+    public Collection<List<?>> getSubjectAlternativeNames() throws CertificateParsingException {
+        throw new NotImplementedException();
     }
 
+    @Override
+    public Collection<List<?>> getIssuerAlternativeNames() throws CertificateParsingException {
+        return super.getIssuerAlternativeNames();
+    }
+
+    @Override
+    public void verify(PublicKey publicKey, Provider provider) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        super.verify(publicKey, provider);
+    }
+
+    private byte[] memoizedEncodedCert = null;
+    @Override
+    public byte[] getEncoded() throws CertificateEncodingException {
+        if (memoizedEncodedCert == null) {
+            memoizedEncodedCert = Base64.getDecoder().decode(asDer);
+        }
+        return Arrays.copyOf(memoizedEncodedCert, memoizedEncodedCert.length);
+    }
+
+    /**Not implemented*/
     @Override
     public void verify(PublicKey publicKey) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public void verify(PublicKey publicKey, String s) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
         throw new NotImplementedException();
-
     }
 
+    /**Not implemented*/
     @Override
     public String toString() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public PublicKey getPublicKey() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public boolean hasUnsupportedCriticalExtension() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public Set<String> getCriticalExtensionOIDs() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public Set<String> getNonCriticalExtensionOIDs() {
         throw new NotImplementedException();
     }
 
+    /**Not implemented*/
     @Override
     public byte[] getExtensionValue(String s) {
         throw new NotImplementedException();
+    }
+
+    /**
+     * Gets the String (Whatever String we get from CertStream)
+     * for the extension value (extnValue) identified by the
+     * passed-in oid String. The oid string is represented
+     * by whatever CertStream passes us.
+     */
+    public String getStringExtensionValue(String key)
+    {
+        return extensions.get(key);
     }
 }

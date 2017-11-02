@@ -8,11 +8,12 @@ import org.slf4j.LoggerFactory;
 import java.security.cert.CertificateException;
 import java.util.function.Consumer;
 
+/**
+ * The main class for handling {@link CertStreamMessage}s.
+ */
 public class CertStream{
 
     private static final Logger logger = LoggerFactory.getLogger(CertStream.class);
-
-    private static final long defaultRateLimit = 1000;
 
     private static BoringParts theBoringParts = new BoringParts();
 
@@ -21,21 +22,11 @@ public class CertStream{
                     theBoringParts,
                     theBoringParts);
 
-    private static final Gson gson= new Gson();
-
-//    public static Stream<CertStreamMessagePOJO> openStream()
-//    {
-//        return openStream(defaultRateLimit);
-//    }
-//
-//    public static Stream<CertStreamMessagePOJO> openStream(long rateLimit)
-//    {
-//
-//
-//    }
-
-
-    //todo another function that accepts an acceptor that accepts the POJOs parsed out of the json
+    /**
+     * @param handler A {@link Consumer<String>} that we'll
+     *                run in a Thread that stays alive as long
+     *                as the WebSocket stays open.
+     */
     public static void onMessageString(Consumer<String> handler)
     {
         new Thread(() ->
@@ -54,24 +45,30 @@ public class CertStream{
         }).start();
     }
 
+
+    /**
+     * @param handler A {@link Consumer<CertStreamMessage>} that we'll
+     *                run in a Thread that stays alive as long
+     *                as the WebSocket stays open.
+     */
     public static void onMessage(CertStreamMessageHandler handler)
     {
         onMessageString(string ->
         {
-            CertStreamMessagePOJO msg = null;
+            CertStreamMessagePOJO msg;
             try
             {
-                msg = gson.fromJson(string, CertStreamMessagePOJO.class);
+                msg = new Gson().fromJson(string, CertStreamMessagePOJO.class);
 
                 if (msg.messageType.equalsIgnoreCase("heartbeat"))
                 {
-                    System.out.println("heartbeat message: " + string);
                     return;
                 }
             }catch (JsonSyntaxException e)
             {
                 System.out.println(e.getMessage());
                 logger.warn("onMessage had an exception parsing some json", e);
+                return;
             }
 
             CertStreamMessage fullMsg;
@@ -80,7 +77,7 @@ public class CertStream{
             {
                 fullMsg = CertStreamMessage.fromPOJO(msg);
             } catch (CertificateException e) {
-                e.printStackTrace();
+                logger.warn("Encountered a CertificateException", e);
                 return;
             }
 

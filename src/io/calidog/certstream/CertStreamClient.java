@@ -2,6 +2,9 @@ package io.calidog.certstream;
 
 import org.java_websocket.handshake.ServerHandshake;
 
+/**
+ * An interface for websocket handlers
+ */
 public interface CertStreamClient {
     void onOpen(ServerHandshake serverHandshake);
 
