@@ -30,7 +30,7 @@ Step 2: Add dependency to pom.xml:
 
 # Usage
 
-Either pass a Consumer<String> into CertStream.onMessageString() or a Consumer<CertStreamMessage> into CertStream.onMessage(). See the ExampleClient for an example.
+Either pass a Consumer\<String\> into CertStream.onMessageString() or a Consumer\<CertStreamMessage\> into CertStream.onMessage(). See the ExampleClient for an example.
 
 # Example data structure
 
