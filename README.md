@@ -22,7 +22,7 @@ For this project I used only the very bare necessities to avoid causing dependen
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.2</version>
-</dependency>
+        </dependency>
 ```
 You will note that there is no SLF4J appender in that list. The logging is up to you. If you're using SLF4J already it will just spit out the messages. If you aren't it is super cool and I very deeply hope you consider [taking a look](https://www.slf4j.org/), it will make your logging better and your life richer.
 
