@@ -6,7 +6,6 @@
 
 This is a library for interacting with the [certstream network](https://certstream.calidog.io/) to monitor an aggregated feed from a collection of [Certificate Transparency Lists](https://www.certificate-transparency.org/known-logs).
 
-:: BLURB :: 
 For this project I used only the very bare necessities to avoid causing dependency issues for folks downstream. The three libraries are:
 ```
         <dependency>
