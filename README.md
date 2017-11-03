@@ -7,6 +7,26 @@
 This is a library for interacting with the [certstream network](https://certstream.calidog.io/) to monitor an aggregated feed from a collection of [Certificate Transparency Lists](https://www.certificate-transparency.org/known-logs).
 
 :: BLURB :: 
+For this project I used only the very bare necessities to avoid causing dependency issues for folks downstream. The three libraries are:
+```
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
+</dependency>
+```
+You will note that there is no SLF4J appender in that list. The logging is up to you. If you're using SLF4J already it will just spit out the messages. If you aren't it is super cool and I very deeply hope you consider [taking a look](https://www.slf4j.org/), it will make your logging better and your life richer.
+
 
 # Installing
 
@@ -30,7 +50,7 @@ Step 2: Add dependency to pom.xml:
 
 # Usage
 
-Either pass a Consumer\<String\> into CertStream.onMessageString() or a Consumer\<CertStreamMessage\> into CertStream.onMessage(). See the ExampleClient for an example.
+When I started working on this project I stuggled for a while with how to write the interface for this. I've mostly written abandonware or corporate stuff so I wasn't really sure where to start. Then one Mr Ryan Sears suggested that I write an interface I would want to use and then write the implementation around that. So the main interface for this project is two functions, both of which take a single Consumer Lambda as an argument. All you have to do is say what you want to do with the data and this library does the rest. Either pass a Consumer\<String\> into CertStream.onMessageString() or a Consumer\<[CertStreamMessage](https://github.com/CaliDog/certstream-java/blob/master/src/io/calidog/certstream/CertStreamMessage.java)\> into CertStream.onMessage(). A crazy simple exampe can be found [here](https://github.com/CaliDog/certstream-java/blob/master/src/example/ExampleClient.java) or if you don't feel like reading that, all yo have to to is use the `->`. No really. `CertStream.onMessage(String)?(msg -> /*whatever you want*/);` It's just that simple.
 
 # Example data structure
 
