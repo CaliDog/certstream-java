@@ -25,6 +25,7 @@ For this project I used only the very bare necessities to avoid causing dependen
         </dependency>
 ```
 You will note that there is no SLF4J appender in that list. The logging is up to you. If you're using SLF4J already it will just spit out the messages. If you aren't it is super cool and I very deeply hope you consider [taking a look](https://www.slf4j.org/), it will make your logging better and your life richer.
+When I started working on this project I stuggled for a while with how to write the interface. I've mostly written abandonware or corporate stuff so I wasn't really sure where to start. Then someone (who wishes to remain nameless) suggested that I write an interface I would want to use and then write the implementation around that. So I did. I hope you like how it turned out.
 
 
 # Installing
@@ -49,7 +50,32 @@ Step 2: Add dependency to pom.xml:
 
 # Usage
 
-When I started working on this project I stuggled for a while with how to write the interface for this. I've mostly written abandonware or corporate stuff so I wasn't really sure where to start. Then one Mr Ryan Sears suggested that I write an interface I would want to use and then write the implementation around that. So the main interface for this project is two functions, both of which take a single Consumer Lambda as an argument. All you have to do is say what you want to do with the data and this library does the rest. Either pass a Consumer\<String\> into CertStream.onMessageString() or a Consumer\<[CertStreamMessage](https://github.com/CaliDog/certstream-java/blob/master/src/io/calidog/certstream/CertStreamMessage.java)\> into CertStream.onMessage(). A crazy simple exampe can be found [here](https://github.com/CaliDog/certstream-java/blob/master/src/example/ExampleClient.java) or if you don't feel like reading that, all you have to to is use the `->`. No really. `CertStream.onMessage(String)?(msg -> /*whatever you want*/);` It's just that simple.
+The main interface for this project is two functions, both of which take a single Consumer (read Lambda) as an argument. All you have to do is say what you want to do with the data and this library does the rest. Either pass a Consumer\<String\> into CertStream.onMessageString() or a Consumer\<[CertStreamMessage](https://github.com/CaliDog/certstream-java/blob/master/src/io/calidog/certstream/CertStreamMessage.java)\> into CertStream.onMessage(). All you have to to is use the `->` or the `::`. No really, take a look:
+```
+package example;
+
+import com.google.gson.Gson;
+import io.calidog.certstream.CertStream;
+
+/**
+ * Prints out Messages
+ */
+public class ExampleClient {
+
+    /**
+     * Main method
+     * @param args unused
+     */
+    public static void main(String[] args)
+    {
+        //string version of the message
+        CertStream.onMessageString(System.out::println);
+
+
+        CertStream.onMessage(msg -> System.out.println(new Gson().toJson(msg)));
+    }
+}
+```
 
 # Example data structure
 
