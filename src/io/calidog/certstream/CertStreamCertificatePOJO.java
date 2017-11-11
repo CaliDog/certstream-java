@@ -23,4 +23,11 @@ public class CertStreamCertificatePOJO {
     @SerializedName("as_der")
     String asDer;
 
+    @SerializedName("serial_number")
+    String serialNumber;
+
+    String fingerprint;
+
+    @SerializedName("all_domains")
+    String[] allDomains;
 }

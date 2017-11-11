@@ -15,7 +15,7 @@ public class ExampleClient {
     public static void main(String[] args)
     {
         //string version of the message
-        CertStream.onMessageString(System.out::println);
+        //CertStream.onMessageString(System.out::println);
 
 
         CertStream.onMessage(msg -> System.out.println(new Gson().toJson(msg)));

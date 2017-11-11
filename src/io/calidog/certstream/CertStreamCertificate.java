@@ -23,9 +23,15 @@ public class CertStreamCertificate extends X509Certificate {
 
     private String asDer;
 
+    String serialNumber;
+
+    String fingerprint;
+
+    String[] allDomains;
+
     private CertStreamCertificate() {}
 
-    public static Certificate fromPOJO(CertStreamCertificatePOJO pojo) throws CertificateException {
+    public static CertStreamCertificate fromPOJO(CertStreamCertificatePOJO pojo) throws CertificateException {
         CertStreamCertificate fullCertificate = new CertStreamCertificate();
 
         if (pojo.asDer.isEmpty())
@@ -41,6 +47,12 @@ public class CertStreamCertificate extends X509Certificate {
         fullCertificate.notBefore = pojo.notBefore;
 
         fullCertificate.subject = pojo.subject;
+
+        fullCertificate.serialNumber = pojo.serialNumber;
+
+        fullCertificate.fingerprint = pojo.fingerprint;
+
+        fullCertificate.allDomains = pojo.allDomains;
 
         return fullCertificate;
     }

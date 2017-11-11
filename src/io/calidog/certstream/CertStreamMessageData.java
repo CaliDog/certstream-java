@@ -11,9 +11,9 @@ public class CertStreamMessageData {
 
     String updateType;
 
-    Certificate leafCert;
+    CertStreamCertificate leafCert;
 
-    Certificate[] chain;
+    CertStreamCertificate[] chain;
 
     long certIndex;
 
