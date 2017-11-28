@@ -15,13 +15,6 @@ public class CertStream{
 
     private static final Logger logger = LoggerFactory.getLogger(CertStream.class);
 
-    private static BoringParts theBoringParts = new BoringParts();
-
-    private static CertStreamClientImplFactory defaultImplFactory =
-            new CertStreamClientImplFactory(theBoringParts,
-                    theBoringParts,
-                    theBoringParts);
-
     /**
      * @param handler A {@link Consumer<String>} that we'll
      *                run in a Thread that stays alive as long
@@ -31,14 +24,17 @@ public class CertStream{
     {
         new Thread(() ->
         {
-            defaultImplFactory.make(handler::accept);
+            BoringParts theBoringParts = new BoringParts(handler::accept);
 
             while (theBoringParts.isNotClosed())
             {
                 Thread.yield();
                 try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {}
+
+                if (Thread.interrupted())
+                {
                     break;
                 }
             }

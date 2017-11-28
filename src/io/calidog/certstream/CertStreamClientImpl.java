@@ -7,11 +7,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class CertStreamClientImpl extends WebSocketClient{
-
     private static final String certStreamUriString = "wss://certstream.calidog.io";
 
     private static URI tempUri = null;
-
     static {
         try
         {
