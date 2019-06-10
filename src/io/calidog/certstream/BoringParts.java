@@ -47,7 +47,6 @@ public class BoringParts implements
     @Override
     public void onClose(int i, String s, boolean b) {
         logger.debug("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
-        System.out.println("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
 
         if (recoverableCloseCodes.contains(i))
         {
