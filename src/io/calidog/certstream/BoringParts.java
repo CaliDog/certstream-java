@@ -46,7 +46,7 @@ public class BoringParts implements
     //todo reconnection logic
     @Override
     public void onClose(int i, String s, boolean b) {
-        logger.warn("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
+        logger.debug("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
         System.out.println("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
 
         if (recoverableCloseCodes.contains(i))
