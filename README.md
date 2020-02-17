@@ -11,17 +11,17 @@ For this project I used only the very bare necessities to avoid causing dependen
         <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
-            <version>1.3.5</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.2</version>
+            <version>2.8.6</version>
         </dependency>
 ```
 You need a java version later than Java 8u101 - earlier ones don't support the Let's Encrypt certificates used on our server.
