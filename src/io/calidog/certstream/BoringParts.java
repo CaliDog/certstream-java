@@ -22,7 +22,7 @@ public class BoringParts implements
     private static final Logger logger = LoggerFactory.getLogger(BoringParts.class);
     private final long sleepBeforeReconnect;
 
-    private HashSet<Integer> recoverableCloseCodes = new HashSet<>(Arrays.asList(1001, 1005, 1006, 1009));
+    private HashSet<Integer> recoverableCloseCodes = new HashSet<>(Arrays.asList(1000, 1001, 1002, 1005, 1006, 1009));
 
     private final Supplier<WebSocketClient> webSocketClientSupplier;
     private WebSocketClient webSocketClient;
@@ -62,6 +62,10 @@ public class BoringParts implements
             }
 
             webSocketClient = webSocketClientSupplier.get();
+        }
+        else
+        {
+            logger.warn("OnClose was called wih i = " + i + ", s = "+s + ", b = b");
         }
     }
 
