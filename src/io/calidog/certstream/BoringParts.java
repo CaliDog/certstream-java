@@ -43,6 +43,16 @@ public class BoringParts implements
         webSocketClient = webSocketClientSupplier.get();
     }
 
+    /**
+     * Constructor for the connection to an alternative server
+     * @param serverURI String representation of the alternative server's address
+     */
+    public BoringParts(CertStreamStringMessageHandler messageHandler, long sleepBeforeReconnect, String serverURI){
+        this.sleepBeforeReconnect = sleepBeforeReconnect;
+        this.webSocketClientSupplier = () -> defaultImplFactory.make(messageHandler, serverURI);
+        this.webSocketClient = webSocketClientSupplier.get();
+    }
+
     //todo reconnection logic
     @Override
     public void onClose(int i, String s, boolean b) {
