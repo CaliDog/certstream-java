@@ -2,6 +2,8 @@ package io.calidog.certstream;
 
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.net.URISyntaxException;
+
 /**
  * A bundler around a functional interface. This is the little bit of magic
  * that lets you just pass in a {@link java.util.function.Consumer} and have
@@ -30,12 +32,39 @@ public class CertStreamClientImplFactory {
 
     /**
      * @param messageHandler The handler for onMessage
-     * @return a complete CertStreamClientImpl made out of a function
-     * and the handlers this Object was initialized with
+     * @return CertStreamClientImpl connected to the
+     * default sever ("wss://certstream.calidog.io")
      */
     public CertStreamClientImpl make(CertStreamStringMessageHandler messageHandler)
     {
-        return new CertStreamClientImpl(new CertStreamClient() {
+        return new CertStreamClientImpl(createClient(messageHandler));
+    }
+
+    /**
+     *
+     * @param messageHandler The handler for onMessage
+     * @param serverURI String representation of the address of the alternative server
+     * @return CertStreamClientImpl connected to an
+     * alternative Certstream-Server
+     */
+    public CertStreamClientImpl make(CertStreamStringMessageHandler messageHandler, String serverURI){
+        CertStreamClientImpl certStreamClient = null;
+        try {
+            certStreamClient = new CertStreamClientImpl(createClient(messageHandler), serverURI);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return certStreamClient;
+    }
+
+    /**
+     *
+     * @param messageHandler The handler for onMessage
+     * @return a complete CertStreamClientImpl made out of a function
+     * and the handlers this Object was initialized with
+     */
+    public CertStreamClient createClient(CertStreamStringMessageHandler messageHandler){
+        return new CertStreamClient() {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
                 openHandler.onOpen(serverHandshake);
@@ -55,7 +84,7 @@ public class CertStreamClientImplFactory {
             public void onError(Exception e) {
                 errorHandler.onError(e);
             }
-        });
+        };
     }
 
 

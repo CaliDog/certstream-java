@@ -27,6 +27,16 @@ public class CertStreamClientImpl extends WebSocketClient{
         this.connect();
     }
 
+    /**
+     * Constructor for alternative Server
+     * @param serverURI String representation of server-address
+     */
+    public CertStreamClientImpl(CertStreamClient client, String serverURI) throws URISyntaxException {
+        super(new URI(serverURI));
+        this.client = client;
+        this.connect();
+    }
+
     public void onOpen(ServerHandshake serverHandshake) {
         client.onOpen(serverHandshake);
     }
