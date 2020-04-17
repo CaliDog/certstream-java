@@ -12,7 +12,9 @@ public class CertStreamCertificatePOJO {
 
     HashMap<String, String> subject;
 
-    HashMap<String, String> extensions;
+    // values can be either strings or lists of strings, so we use a a custom deserializer
+    // that converts strings into singleton arrays
+    HashMap<String, String[]> extensions;
 
     @SerializedName("not_before")
     double notBefore;
