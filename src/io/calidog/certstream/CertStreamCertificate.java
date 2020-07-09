@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class CertStreamCertificate extends X509Certificate {
     private HashMap<String, String> subject;
-    private HashMap<String, String> extensions;
+    private HashMap<String, String[]> extensions;
 
     private double notBefore;
     private double notAfter;
@@ -257,7 +257,7 @@ public class CertStreamCertificate extends X509Certificate {
      * passed-in oid String. The oid string is represented
      * by whatever CertStream passes us.
      */
-    public String getStringExtensionValue(String key)
+    public String[] getStringExtensionValue(String key)
     {
         return extensions.get(key);
     }

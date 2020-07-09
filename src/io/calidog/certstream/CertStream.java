@@ -1,6 +1,7 @@
 package io.calidog.certstream;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,13 +61,13 @@ public class CertStream{
             CertStreamMessagePOJO msg;
             try
             {
-                msg = new Gson().fromJson(string, CertStreamMessagePOJO.class);
+                msg = certStreamGson.fromJson(string, CertStreamMessagePOJO.class);
 
                 if (msg.messageType.equalsIgnoreCase("heartbeat"))
                 {
                     return;
                 }
-            }catch (JsonSyntaxException e)
+            } catch (JsonSyntaxException e)
             {
                 System.out.println(e.getMessage());
                 logger.warn("onMessage had an exception parsing some json", e);
@@ -87,6 +88,15 @@ public class CertStream{
         });
     }
 
+    private static Gson certStreamGson =
+            new GsonBuilder()
+                    .registerTypeAdapter
+                    (
+                        CertStreamCertificatePOJO.class,
+                        new CertStreamCertificatePOJODeserializer()
+                    )
+                    .create();
+
     /**
      * @param handler A {@link Consumer<CertStreamMessage>} that we'll
      *                run in a Thread that stays alive as long
@@ -99,7 +109,7 @@ public class CertStream{
             CertStreamMessagePOJO msg;
 
             try {
-                msg = new Gson().fromJson(string, CertStreamMessagePOJO.class);
+                msg = certStreamGson.fromJson(string, CertStreamMessagePOJO.class);
 
                 if (msg.messageType.equalsIgnoreCase("heartbeat")) {
                     return;
