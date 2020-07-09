@@ -1,5 +1,6 @@
 #Intellij's dirty laundry
 .idea/*
+*.iml
 
 #maven build artifcts
 target/*
