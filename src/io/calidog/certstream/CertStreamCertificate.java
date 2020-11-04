@@ -1,11 +1,8 @@
 package io.calidog.certstream;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import javax.security.auth.x500.X500Principal;
 import java.math.BigInteger;
 import java.security.*;
-import java.security.cert.Certificate;
 import java.security.cert.*;
 import java.time.Instant;
 import java.util.*;
@@ -16,7 +13,7 @@ import java.util.*;
  */
 public class CertStreamCertificate extends X509Certificate {
     private HashMap<String, String> subject;
-    private HashMap<String, String> extensions;
+    private HashMap<String, String[]> extensions;
 
     private double notBefore;
     private double notAfter;
@@ -77,25 +74,25 @@ public class CertStreamCertificate extends X509Certificate {
     /**Not implemented*/
     @Override
     public int getVersion() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public BigInteger getSerialNumber() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public Principal getIssuerDN() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public X500Principal getIssuerX500Principal() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
@@ -122,66 +119,66 @@ public class CertStreamCertificate extends X509Certificate {
     /**Not implemented*/
     @Override
     public byte[] getTBSCertificate() throws CertificateEncodingException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
     /**Not implemented*/
     @Override
     public byte[] getSignature() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public String getSigAlgName() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public String getSigAlgOID() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public byte[] getSigAlgParams() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public boolean[] getIssuerUniqueID() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public boolean[] getSubjectUniqueID() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public boolean[] getKeyUsage() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public List<String> getExtendedKeyUsage() throws CertificateParsingException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public int getBasicConstraints() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public Collection<List<?>> getSubjectAlternativeNames() throws CertificateParsingException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -206,49 +203,49 @@ public class CertStreamCertificate extends X509Certificate {
     /**Not implemented*/
     @Override
     public void verify(PublicKey publicKey) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public void verify(PublicKey publicKey, String s) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public String toString() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public PublicKey getPublicKey() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public boolean hasUnsupportedCriticalExtension() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public Set<String> getCriticalExtensionOIDs() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public Set<String> getNonCriticalExtensionOIDs() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**Not implemented*/
     @Override
     public byte[] getExtensionValue(String s) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -257,7 +254,7 @@ public class CertStreamCertificate extends X509Certificate {
      * passed-in oid String. The oid string is represented
      * by whatever CertStream passes us.
      */
-    public String getStringExtensionValue(String key)
+    public String[] getStringExtensionValue(String key)
     {
         return extensions.get(key);
     }
