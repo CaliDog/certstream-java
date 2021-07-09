@@ -6,10 +6,11 @@ public class CertStreamMessageDataPOJO {
     @SerializedName("update_type")
     String updateType;
 
+    @SerializedName("cert_link")
+    String certLink;
+
     @SerializedName("leaf_cert")
     CertStreamCertificatePOJO leafCert;
-
-    CertStreamCertificatePOJO[] chain;
 
     @SerializedName("cert_index")
     long certIndex;

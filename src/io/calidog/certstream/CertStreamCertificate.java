@@ -14,11 +14,12 @@ import java.util.*;
 public class CertStreamCertificate extends X509Certificate {
     private HashMap<String, String> subject;
     private HashMap<String, String[]> extensions;
+    private HashMap<String, String> issuer;
 
     private double notBefore;
     private double notAfter;
 
-    private String asDer;
+    String sigAlg;
 
     String serialNumber;
 
@@ -31,12 +32,9 @@ public class CertStreamCertificate extends X509Certificate {
     public static CertStreamCertificate fromPOJO(CertStreamCertificatePOJO pojo) throws CertificateException {
         CertStreamCertificate fullCertificate = new CertStreamCertificate();
 
-        if (pojo.asDer.isEmpty())
-        {
-            return null;
-        }
+        fullCertificate.issuer = pojo.issuer;
 
-        fullCertificate.asDer = pojo.asDer;
+        fullCertificate.sigAlg = pojo.sigAlg;
 
         fullCertificate.extensions = pojo.extensions;
 
@@ -191,13 +189,10 @@ public class CertStreamCertificate extends X509Certificate {
         super.verify(publicKey, provider);
     }
 
-    private byte[] memoizedEncodedCert = null;
     @Override
-    public byte[] getEncoded() throws CertificateEncodingException {
-        if (memoizedEncodedCert == null) {
-            memoizedEncodedCert = Base64.getDecoder().decode(asDer);
-        }
-        return Arrays.copyOf(memoizedEncodedCert, memoizedEncodedCert.length);
+    public byte[] getEncoded() {
+
+        return new byte[1];
     }
 
     /**Not implemented*/
