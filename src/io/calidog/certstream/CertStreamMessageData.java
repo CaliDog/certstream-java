@@ -11,9 +11,9 @@ public class CertStreamMessageData {
 
     String updateType;
 
-    CertStreamCertificate leafCert;
+    String certLink;
 
-    CertStreamCertificate[] chain;
+    CertStreamCertificate leafCert;
 
     long certIndex;
 
@@ -36,12 +36,7 @@ public class CertStreamMessageData {
 
         fullData.leafCert = CertStreamCertificate.fromPOJO(pojo.leafCert);
 
-        fullData.chain = new CertStreamCertificate[pojo.chain.length];
-
-        for (int i = 0; i < fullData.chain.length; i++)
-        {
-            fullData.chain[i] = CertStreamCertificate.fromPOJO(pojo.chain[i]);
-        }
+        fullData.certLink = pojo.certLink;
 
         fullData.source = pojo.source;
 
